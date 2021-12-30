@@ -342,6 +342,8 @@ int packet__write(struct mosquitto *mosq)
 
 int packet__read(struct mosquitto *mosq)
 {
+    log__printf(NULL, MOSQ_LOG_INFO, "packet__read");
+    log__printf(NULL, MOSQ_LOG_INFO, "mosquitto protocol %d",mosq->protocol);
 	uint8_t byte;
 	ssize_t read_length;
 	int rc = 0;
@@ -350,6 +352,7 @@ int packet__read(struct mosquitto *mosq)
 	if(!mosq){
 		return MOSQ_ERR_INVAL;
 	}
+    log__printf(NULL, MOSQ_LOG_INFO, "mosq->sock %d",mosq->sock);
 	if(mosq->sock == INVALID_SOCKET){
 		return MOSQ_ERR_NO_CONN;
 	}
@@ -375,6 +378,7 @@ int packet__read(struct mosquitto *mosq)
 	 */
 	if(!mosq->in_packet.command){
 		read_length = net__read(mosq, &byte, 1);
+        log__printf(NULL, MOSQ_LOG_INFO, "read_length: %zd", read_length);
 		if(read_length == 1){
 			mosq->in_packet.command = byte;
 #ifdef WITH_BROKER
@@ -417,6 +421,7 @@ int packet__read(struct mosquitto *mosq)
 	if(mosq->in_packet.remaining_count <= 0){
 		do{
 			read_length = net__read(mosq, &byte, 1);
+            log__printf(NULL, MOSQ_LOG_INFO, "net__read read_length=%zd",read_length);
 			if(read_length == 1){
 				mosq->in_packet.remaining_count--;
 				/* Max 4 bytes length for remaining length as defined by protocol.
@@ -550,6 +555,8 @@ int packet__read(struct mosquitto *mosq)
 		G_PUB_MSGS_RECEIVED_INC(1);
 	}
 #endif
+
+    log__printf(NULL, MOSQ_LOG_INFO, "handle__packet");
 	rc = handle__packet(mosq);
 
 	/* Free data and reset values */

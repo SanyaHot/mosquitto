@@ -38,6 +38,7 @@ int handle__packet(struct mosquitto *context)
 
 	if(!context) return MOSQ_ERR_INVAL;
 
+    log__printf(NULL, MOSQ_LOG_INFO, "handle__packet command %x",(context->in_packet.command)&0xF0);
 	switch((context->in_packet.command)&0xF0){
 		case CMD_PINGREQ:
 			rc = handle__pingreq(context);

@@ -258,6 +258,8 @@ int handle__publish(struct mosquitto *context)
 	}
 
 	log__printf(NULL, MOSQ_LOG_DEBUG, "Received PUBLISH from %s (d%d, q%d, r%d, m%d, '%s', ... (%ld bytes))", context->id, dup, msg->qos, msg->retain, msg->source_mid, msg->topic, (long)msg->payloadlen);
+	log__printf(NULL, MOSQ_LOG_INFO, "Received PUBLISH from %s (d%d, q%d, r%d, m%d, '%s', ... (%ld bytes))", context->id, dup, msg->qos, msg->retain, msg->source_mid, msg->topic, (long)msg->payloadlen);
+    log__printf(NULL, MOSQ_LOG_INFO, "Received PUBLISH msg: %s", msg->payload);
 
 	if(!strncmp(msg->topic, "$CONTROL/", 9)){
 #ifdef WITH_CONTROL

@@ -202,6 +202,7 @@ int mosquitto_main_loop(struct mosquitto__listener_sock *listensock, int listens
 		bridge_check();
 #endif
 
+		//log__printf(NULL, MOSQ_LOG_INFO, "mosquitto_main_loop");
 		rc = mux__handle(listensock, listensock_count);
 		if(rc) return rc;
 

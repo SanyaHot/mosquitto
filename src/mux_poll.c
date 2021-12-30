@@ -189,6 +189,7 @@ int mux_poll__delete(struct mosquitto *context)
 
 int mux_poll__handle(struct mosquitto__listener_sock *listensock, int listensock_count)
 {
+    //log__printf(NULL, MOSQ_LOG_INFO, "mux_poll__handle");
 	struct mosquitto *context;
 	int i;
 	int fdcount;
@@ -255,6 +256,7 @@ int mux_poll__cleanup(void)
 
 static void loop_handle_reads_writes(void)
 {
+    //log__printf(NULL, MOSQ_LOG_INFO, "loop_handle_reads_writes");
 	struct mosquitto *context, *ctxt_tmp;
 	int err;
 	socklen_t len;
